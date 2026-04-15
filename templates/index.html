@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Emotion Classifier</title>
+    <link rel="stylesheet" href="/static/style.css">
+  </head>
+  <body>
+    <main>
+      <h1>Emotion Classifier</h1>
+      <form action="/predict" method="post">
+        <label for="text">Enter text to classify</label>
+        <textarea id="text" name="text" rows="6" placeholder="Type or paste a sentence...">{{ text or '' }}</textarea>
+        <button type="submit">Classify</button>
+      </form>
+
+      {% if error %}
+        <p class="error">{{ error }}</p>
+      {% endif %}
+
+      {% if label %}
+        <section class="result">
+          <h2>Prediction</h2>
+          <p><strong>Label:</strong> {{ label }}</p>
+          {% if probs %}
+            <h3>Probabilities</h3>
+            <ul>
+            {% for k,v in probs.items()|dictsort(false) %}
+              <li>{{ k }}: {{ "{:.2f}"|format(v) }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        </section>
+      {% endif %}
+    </main>
+  </body>
+</html>
